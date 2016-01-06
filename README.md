@@ -1,8 +1,94 @@
 # SideloadSerializer
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/sideload_serializer`. To experiment with that code, run `bin/console` for an interactive prompt.
+This is an adapter for [Active Model Serializers](https://github.com/rails-api/active_model_serializers) >= 0.10 intended to give a sideload JSON style similar to AMS 0.8.* embed approach with some alterations to conform to the [Rocketmade](http://rocketmade.com) API Standard.
 
-TODO: Delete this and the text above, and describe your gem
+It includes two forms of the adapter, the first serializes to the sideloaded format and the second alters all hash keys to camelCase.
+
+Sideloaded json is extremely useful for offline sync situations where data is being loaded into coredata or other local storage. It helps reduce reparsing and transfer size by ensuring that each object is represented exactly once.
+
+An authentication response from [Rockauth](https://github.com/rocketmade/rockauth) is used for the following examples.
+
+Underscore Example:
+
+```json
+{
+  "authentications": [
+    {
+      "id": 4,
+      "token": "<jwt>",
+      "token_id": "<jwt_id>",
+      "expiration": 1483647326,
+      "client_version": null,
+      "device_identifier": null,
+      "device_os": null,
+      "device_os_version": null,
+      "device_description": null,
+      "user_id": 3,
+      "provider_authentication_id": 1
+    }
+  ],
+  "users": [
+    {
+      "id": 3,
+      "email": null,
+      "first_name": null,
+      "last_name": null
+    }
+  ],
+  "provider_authentications": [
+    {
+      "id": 1,
+      "provider": "facebook",
+      "provider_user_id": "avis"
+    }
+  ],
+  "meta": {
+    "primary_resource_collection": "authentications",
+    "primary_resource_id": 4
+  }
+}
+```
+
+Camelized Example:
+
+```json
+{
+  "authentications": [
+    {
+      "id": 8,
+      "token": "<jwt>",
+      "expiration": 1483647222,
+      "tokenId": "<jwt_id>",
+      "clientVersion": null,
+      "deviceIdentifier": null,
+      "deviceOs": null,
+      "deviceOsVersion": null,
+      "deviceDescription": null,
+      "userId": 5,
+      "providerAuthenticationId": 1
+    }
+  ],
+  "users": [
+    {
+      "id": 5,
+      "email": null,
+      "firstName": null,
+      "lastName": null
+    }
+  ],
+  "providerAuthentications": [
+    {
+      "id": 1,
+      "provider": "facebook",
+      "providerUserId": "kendall_okuneva"
+    }
+  ],
+  "meta": {
+    "primaryResourceCollection": "authentications",
+    "primaryResourceId": 8
+  }
+}
+```
 
 ## Installation
 
@@ -22,7 +108,17 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Add the following line to `$RAILS_ROOT/config/initializers/active_model_serializers`
+
+```
+ActiveModelSerializers.config.adapter = "sideload_serializer/camelized_adapter"
+```
+
+Or, to use the camelized keys form of the adapter:
+
+```
+ActiveModelSerializers.config.adapter = "sideload_serializer/camelized_adapter"
+```
 
 ## Development
 
@@ -32,10 +128,9 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/sideload_serializer.
+Bug reports and pull requests are welcome on GitHub at https://github.com/rocketmade/sideload_serializer.
 
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
