@@ -39,7 +39,7 @@ Underscore Example:
     {
       "id": 1,
       "provider": "facebook",
-      "provider_user_id": "avis"
+      "provider_user_id": "facebook_user_id"
     }
   ],
   "meta": {
@@ -80,7 +80,7 @@ Camelized Example:
     {
       "id": 1,
       "provider": "facebook",
-      "providerUserId": "kendall_okuneva"
+      "providerUserId": "facebook_user_id"
     }
   ],
   "meta": {
@@ -90,6 +90,35 @@ Camelized Example:
 }
 ```
 
+The same response with the `json` adapter:
+
+```json
+{
+  "authentication": {
+    "id": 6,
+    "token": "<jwt>",
+    "token_id": "<jwt>",
+    "expiration": 1483647755,
+    "client_version": null,
+    "device_identifier": null,
+    "device_os": null,
+    "device_os_version": null,
+    "device_description": null,
+    "user": {
+      "id": 4,
+      "email": null,
+      "first_name": null,
+      "last_name": null
+    },
+    "provider_authentication": {
+      "id": 1,
+      "provider": "facebook",
+      "provider_user_id": "facebook_user_id"
+    }
+  }
+}
+
+```
 ## Installation
 
 Add this line to your application's Gemfile:
