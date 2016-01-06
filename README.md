@@ -111,7 +111,7 @@ Or install it yourself as:
 Add the following line to `$RAILS_ROOT/config/initializers/active_model_serializers`
 
 ```
-ActiveModelSerializers.config.adapter = "sideload_serializer/camelized_adapter"
+ActiveModelSerializers.config.adapter = "sideload_serializer/adapter"
 ```
 
 Or, to use the camelized keys form of the adapter:
