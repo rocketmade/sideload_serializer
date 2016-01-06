@@ -14,6 +14,7 @@ module SideloadSerializer
     end
 
     def add_serializer_to_document serializer_instance, document, serialized_keys, include_tree
+      return unless serializer_instance && serializer_instance.object
       if collection_serializer_given? serializer_instance
         serializer_instance.each do |s|
           add_serializer_to_document s, document, serialized_keys, include_tree
