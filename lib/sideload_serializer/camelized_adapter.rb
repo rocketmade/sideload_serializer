@@ -12,8 +12,10 @@ module SideloadSerializer
           if key.is_a?(String) || key.is_a?(Symbol)
             new_key = key.to_s.camelize(:lower)
             new_key = new_key.to_sym if key.is_a? Symbol
-            enumerable[new_key] = enumerable[key]
-            enumerable.delete key
+            if new_key != key
+              enumerable[new_key] = enumerable[key]
+              enumerable.delete key
+            end
 
             if enumerable[new_key].respond_to? :each
               deep_camelize_keys enumerable[new_key]
@@ -40,7 +42,9 @@ module SideloadSerializer
         compiled_meta[:primaryResourceId] = resource_identifier_id
       end
 
-      compiled_meta.merge(self.class.deep_camelize_keys(instance_options.fetch(:meta, Hash.new).deep_dup))
+      compiled_meta.merge!(self.class.deep_camelize_keys(instance_options.fetch(:meta, Hash.new).deep_dup))
+
+      compiled_meta
     end
   end
 end
