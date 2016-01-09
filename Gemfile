@@ -6,3 +6,4 @@ gemspec
 
 gem 'active_model_serializers', github: 'rails-api/active_model_serializers'
 # gem 'pry'
+gem 'camelize_keys', github: 'rocketmade/camelize_keys'
