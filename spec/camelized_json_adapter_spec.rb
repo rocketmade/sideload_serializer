@@ -30,6 +30,6 @@ RSpec.describe SideloadSerializer::CamelizedJsonAdapter do
   it "serializes the main object as json would but camelized" do
     expect(serializable_hash).to have_key :specAlbum
     expect(serializable_hash[:specAlbum]).to be_a Hash
-    expect(serializable_hash[:specAlbum]).to have_key :songsg
+    expect(serializable_hash[:specAlbum]).to have_key :songs
   end
 end
