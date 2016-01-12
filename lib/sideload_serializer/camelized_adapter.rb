@@ -12,6 +12,12 @@ module SideloadSerializer
       end
     end
 
+
+    def root serializer_instance=serializer
+      super.to_s.camelize(:lower)
+    end
+
+
     def meta
       compiled_meta = {
         primaryResourceCollection: root.to_s.camelize(:lower)

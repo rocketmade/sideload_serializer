@@ -68,7 +68,7 @@ module SideloadSerializer
       serializer_instance.respond_to? :each
     end
 
-    def embed_key_for association
+    def embed_id_key_for association
       extension = '_id'
       extension += 's' if collection_serializer_given? association.serializer
       association_key = if association.options.has_key? :key
@@ -78,6 +78,16 @@ module SideloadSerializer
                         end
 
       :"#{association_key}#{extension}" # this is hokey, refactor. Can we interrogate the serializer/association for this information?
+    end
+
+    def embed_collection_key_for association
+      association_key = if association.options.has_key? :key
+                          association.key
+                        else
+                          association.name.to_s.singularize
+                        end
+
+      :"#{association_key}_collection"
     end
 
     def resource_identifier_id serializer_instance=serializer
@@ -90,11 +100,16 @@ module SideloadSerializer
 
     def add_relationship_keys serializer_instance, attributes, include_tree
       serializer_instance.associations(include_tree).each do |association|
-        attributes[embed_key_for(association)] = relationship_value_for association
+        attributes[embed_id_key_for(association)] = relationship_id_value_for association
+        attributes[embed_collection_key_for(association)] = if association.serializer
+                                                              root association.serializer
+                                                            else
+                                                              nil
+                                                            end
       end
     end
 
-    def relationship_value_for association
+    def relationship_id_value_for association
       return association.options[:virtual_value] if association.options[:virtual_value]
       return unless association.serializer && association.serializer.object
 

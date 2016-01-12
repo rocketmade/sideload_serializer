@@ -43,6 +43,7 @@ RSpec.describe SideloadSerializer::Adapter do
   it "embeds ids for associations" do
     expect(serialized_album).to have_key :song_ids
     expect(serialized_album).to have_key :artist_id
+    expect(serialized_album).to have_key :artist_collection
     expect(serialized_album[:song_ids]).to be_a Array
   end
 
@@ -68,6 +69,7 @@ RSpec.describe SideloadSerializer::Adapter do
     it "does not include the id parameters for the associations" do
       expect(serialized_album).not_to have_key :song_ids
       expect(serialized_album).not_to have_key :artist_id
+      expect(serialized_album).not_to have_key :artist_collection
     end
   end
 end
