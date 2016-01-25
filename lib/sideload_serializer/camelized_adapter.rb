@@ -27,7 +27,8 @@ module SideloadSerializer
         compiled_meta[:primaryResourceId] = resource_identifier_id
       end
 
-      compiled_meta.merge!(self.class.deep_camelize_keys(instance_options.fetch(:meta, Hash.new).deep_dup))
+      configured_meta = self.class.deep_camelize_keys(instance_options.fetch(:meta, Hash.new).deep_dup)
+      compiled_meta.merge!(configured_meta) if configured_meta.present?
 
       compiled_meta
     end
